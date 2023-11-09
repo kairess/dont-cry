@@ -1,5 +1,7 @@
 # Don't Cry
 
+Try here: https://kairess.github.io/dont-cry
+
 ![](result.gif)
 
 ## Dependency
