@@ -39,13 +39,21 @@ const drawDrops = (sketch) => {
   for (let i = 0; i < poses.length; i++) {
     let leftEye = poses[i].pose.leftEye;
     let rightEye = poses[i].pose.rightEye;
+    let leftWrist = poses[i].pose.leftWrist;
+    let rightWrist = poses[i].pose.rightWrist;
 
     if (sketch.frameCount % 15 == 0) {
-      if (leftEye.confidence > 0.9)
-      drops.push(new Drop(leftEye.x, leftEye.y, 5, sketch))
+      let distLeftEyeLeftWrist = sketch.dist(leftEye.x, leftEye.y, leftWrist.x, leftWrist.y);
+      let distLeftEyeRightWrist = sketch.dist(leftEye.x, leftEye.y, rightWrist.x, rightWrist.y);
 
-    if (rightEye.confidence > 0.9)
-      drops.push(new Drop(rightEye.x, rightEye.y, 5, sketch))
+      let distRightEyeRightWrist = sketch.dist(rightEye.x, rightEye.y, rightWrist.x, rightWrist.y);
+      let distRightEyeLeftWrist = sketch.dist(rightEye.x, rightEye.y, leftWrist.x, leftWrist.y);
+
+      if (leftEye.confidence > 0.9 && distLeftEyeLeftWrist > 150 && distLeftEyeRightWrist > 150)
+        drops.push(new Drop(leftEye.x, leftEye.y, 5, sketch))
+
+      if (rightEye.confidence > 0.9 && distRightEyeRightWrist > 150 && distRightEyeLeftWrist > 150)
+        drops.push(new Drop(rightEye.x, rightEye.y, 5, sketch))
     }
   }
 };
